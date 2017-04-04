@@ -70,10 +70,6 @@ public class FunkoPop implements HasId
 		return id;
 	}
 
-	public void setId( Integer id )
-	{
-		this.id = id;
-	}
 
 	
 	
