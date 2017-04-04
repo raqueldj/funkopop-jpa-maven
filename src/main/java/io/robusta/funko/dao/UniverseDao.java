@@ -11,7 +11,7 @@ import io.robusta.funko.entities.Universe;
 public class UniverseDao {
 
 	EntityManager em;
-	
+
 	
 	public UniverseDao(EntityManager em) {
 		super();
