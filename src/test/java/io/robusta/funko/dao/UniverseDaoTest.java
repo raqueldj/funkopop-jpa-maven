@@ -8,15 +8,13 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
-import javax.validation.constraints.AssertFalse;
-
-import org.hibernate.engine.transaction.jta.platform.internal.SynchronizationRegistryBasedSynchronizationStrategy;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
 import io.robusta.funko.EmFactory;
+import io.robusta.funko.entities.FunkoPop;
 import io.robusta.funko.entities.Universe;
 
 public class UniverseDaoTest {
@@ -24,6 +22,10 @@ public class UniverseDaoTest {
 	Universe u = new Universe("Maths");
 	EntityManager em;
 	UniverseDao dao;
+
+	Universe starWars = new Universe("Star Wars");
+	FunkoPop jabba = new FunkoPop("Jabba", starWars);
+	FunkoPop boba = new FunkoPop("Boba Fett", starWars);
 
 	@Before
 	public void setUp() {
@@ -123,5 +125,24 @@ public class UniverseDaoTest {
 	@Test
 	public void findPops() {
 
+		em.getTransaction().begin();
+
+		dao.createUniverse(starWars);
+		em.persist(jabba);
+		em.persist(boba);
+
+		em.getTransaction().commit();
+		em.close();
+
+		em = EmFactory.createEntityManager();
+		dao = new UniverseDao(em);
+
+		em.getTransaction().begin();
+		List<FunkoPop> pops = dao.findPops(starWars);
+		em.getTransaction();
+		em.close();
+
+		assertTrue(pops.size() == 2);
+		assertTrue(pops.contains(jabba));
 	}
 }

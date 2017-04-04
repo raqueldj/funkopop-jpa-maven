@@ -45,6 +45,8 @@ public class UniverseDao {
 
 	public List<FunkoPop> findPops(Universe universe) {
 
-		return null;
+		String jpql = "SELECT p FROM FunkoPop p WHERE p.universe = :universe";
+
+		return em.createQuery(jpql, FunkoPop.class).setParameter("universe", universe).getResultList();
 	}
 }
