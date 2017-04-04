@@ -12,38 +12,39 @@ public class UniverseDao {
 
 	EntityManager em;
 
-	
 	public UniverseDao(EntityManager em) {
 		super();
 		this.em = em;
 	}
 
-	public void createUniverse(Universe universe){
-		//il fait la requete SQL tout seul
+	public void createUniverse(Universe universe) {
+		// il fait la requete SQL tout seul
 		em.persist(universe);
 	}
-	
-	public void updateUniverse(Universe universe){
-		
+
+	public void updateUniverse(Universe universe) {
+
 	}
-	
-	public void deleteUniverse(Universe universe){
+
+	public void deleteUniverse(Universe universe) {
 		em.remove(universe);
 	}
-	
-	public Optional<Universe> findById(int id){
+
+	public Optional<Universe> findById(int id) {
 		Universe u = em.find(Universe.class, id);
-		
+
 		return Optional.ofNullable(u);
 	}
-	
-	public List<Universe> findUniverse(String name, int start, int quantity){
-		
-		return null;
+
+	public List<Universe> findUniverse(String name, int start, int quantity) {
+		String query = "SELECT u FROM Universe u WHERE u.name LIKE :name ORDER BY u.name ASC";
+
+		return em.createQuery(query, Universe.class).setParameter("name", "%" + name + "%").setFirstResult(start)
+				.setMaxResults(quantity).getResultList();
 	}
-	
-	public List<FunkoPop> findPops(Universe universe){
-		
+
+	public List<FunkoPop> findPops(Universe universe) {
+
 		return null;
 	}
 }

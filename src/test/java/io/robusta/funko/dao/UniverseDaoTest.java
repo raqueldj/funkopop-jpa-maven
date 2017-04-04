@@ -1,11 +1,14 @@
 package io.robusta.funko.dao;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
+import javax.validation.constraints.AssertFalse;
 
 import org.hibernate.engine.transaction.jta.platform.internal.SynchronizationRegistryBasedSynchronizationStrategy;
 import org.junit.After;
@@ -30,7 +33,9 @@ public class UniverseDaoTest {
 
 	@After
 	public void tearDown() {
-		em.close();
+
+		if (em.isOpen())
+			em.close();
 	}
 
 	@AfterClass
@@ -89,7 +94,30 @@ public class UniverseDaoTest {
 
 	@Test
 	public void findUniverse() {
+		Universe physics = new Universe("Physics");
+		Universe phylosophy = new Universe("Phylosophy");
+		Universe physio = new Universe("Physio");
+		Universe biophylosophy = new Universe("Biophylosophy");
 
+		em.getTransaction().begin();
+
+		dao.createUniverse(physics);
+		dao.createUniverse(phylosophy);
+		dao.createUniverse(physio);
+		dao.createUniverse(biophylosophy);
+
+		em.getTransaction().commit();
+		em.close();
+
+		em = EmFactory.createEntityManager();
+		dao = new UniverseDao(em);
+		em.getTransaction().begin();
+		List<Universe> selection = dao.findUniverse("Phy", 0, 3);
+
+		assertTrue(selection.contains(biophylosophy));
+		assertFalse(selection.contains(physio));
+
+		em.getTransaction().commit();
 	}
 
 	@Test
