@@ -14,10 +14,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import io.robusta.funko.EmFactory;
+import io.robusta.funko.IntegrationTest;
 import io.robusta.funko.entities.FunkoPop;
 import io.robusta.funko.entities.Universe;
 
-public class UniverseDaoTest {
+public class UniverseDaoTest implements IntegrationTest{
 
 	Universe u = new Universe("Maths");
 	EntityManager em;
