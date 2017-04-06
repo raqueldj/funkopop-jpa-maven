@@ -32,8 +32,11 @@ public class FunkoPopService {
 		return funkoPopDao.create(funkoPop);
 	}
 
-	public void update(FunkoPop funkoPop) {
-		funkoPopDao.update(funkoPop);
+	public FunkoPop update(FunkoPop funkoPop) {
+		FunkoPop p = funkoPopDao.findById(funkoPop.getId()).orElseThrow(IllegalArgumentException::new);
+		p.setName(funkoPop.getName());
+		p.setUniverse(funkoPop.getUniverse());
+		return funkoPopDao.update(p);
 	}
 
 	public void delete(FunkoPop funkoPop) {

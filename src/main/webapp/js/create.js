@@ -40,3 +40,7 @@ function remove(event) {
             button.closest("li").remove()
         });
 }
+
+function update(){
+    
+}

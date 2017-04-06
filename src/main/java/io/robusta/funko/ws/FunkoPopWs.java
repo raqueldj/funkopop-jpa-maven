@@ -46,8 +46,8 @@ public class FunkoPopWs {
 	}
 	
 	@PUT
-	public void update(FunkoPop funkoPop){
-		service.update(funkoPop);
+	public FunkoPop update(FunkoPop funkoPop){
+		return service.update(funkoPop);
 	}
 	
 	@DELETE

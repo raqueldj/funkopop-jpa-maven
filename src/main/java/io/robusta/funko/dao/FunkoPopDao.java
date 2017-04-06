@@ -21,8 +21,8 @@ public class FunkoPopDao {
 		return funkoPop;
 	}
 
-	public void update(FunkoPop funkoPop) {
-
+	public FunkoPop update(FunkoPop funkoPop) {
+		return funkoPop;
 	}
 
 	public void delete(FunkoPop funkoPop) {
@@ -41,7 +41,7 @@ public class FunkoPopDao {
 		return em.createQuery(query, FunkoPop.class).setParameter("name", "%" + name + "%").setFirstResult(start)
 				.setMaxResults(quantity).getResultList();
 	}
-	
+
 	public List<FunkoPop> findAll() {
 
 		String jpql = "SELECT p FROM FunkoPop p ORDER BY p.name ASC";

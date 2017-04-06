@@ -25,7 +25,7 @@
 			<li>#{u.name}</li>
 			<ul class="universe #{u.id}">
 				<ui:repeat var="p" value="#{favoritesBean.getPopsFaster(u)}">
-					<li class="pop #{p.id}">#{p.id} - #{p.name} <button type="button" class="delete" id="#{p.id}">Delete #{p.name}</button></li>
+					<li class="pop #{p.id}">#{p.id} - #{p.name} <button type="button" class="update" id="#{p.id}">Update #{p.name}</button><button type="button" class="delete" id="#{p.id}">Delete #{p.name}</button></li>
 				</ui:repeat>
 			</ul>
 		</ui:repeat>
