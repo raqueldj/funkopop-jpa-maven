@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+ xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>Universes</h:head>
+
+<body>
+
+	#{universeService.findById(1)}
+	<h2>Slow</h2>
+	<ul>
+		<ui:repeat var="u" value="#{favoritesBean.favorites}">
+			<li>#{u.name}</li>
+			<ul>
+				<ui:repeat var="p" value="#{universeService.findPops(u)}">
+					<li>#{p.name}</li>
+				</ui:repeat>
+			</ul>
+		</ui:repeat>
+	</ul>
+
+	<h2>Fast</h2>
+	<ul>
+		<ui:repeat var="u" value="#{favoritesBean.universesFaster}">
+			<li>#{u.name}</li>
+			<ul class="universe #{u.id}">
+				<ui:repeat var="p" value="#{favoritesBean.getPopsFaster(u)}">
+					<li class="pop #{p.id}">#{p.id} - #{p.name} <button type="button" class="delete" id="#{p.id}">Delete #{p.name}</button></li>
+				</ui:repeat>
+			</ul>
+		</ui:repeat>
+	</ul>
+
+	<form>
+		<input type="text" required="required" placeholder="Funko Pop" name="name" />
+		<select>
+		<ui:repeat var="u" value="#{universeService.findAll()}">
+					<option value="#{u.id}"> #{u.name} </option>
+				</ui:repeat>
+	</select>
+		<button type="button" class="create">Create FunkoPop</button>
+	</form>
+
+	Favorite:#{favoritesBean.test}
+	<f:view>
+		<h:outputLabel value="Hello babe ;)" />
+	</f:view>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+ crossorigin="anonymous"></script>
+<script type="text/javascript" src="js/create.js"></script>
+
+</html>

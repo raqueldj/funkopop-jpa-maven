@@ -1,5 +1,7 @@
 package io.robusta.funko.dao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,5 +50,31 @@ public class UniverseDao {
 		String jpql = "SELECT p FROM FunkoPop p WHERE p.universe = :universe";
 
 		return em.createQuery(jpql, FunkoPop.class).setParameter("universe", universe).getResultList();
+	}
+
+	public List<Universe> findAll() {
+
+		String jpql = "SELECT u FROM Universe u ORDER BY u.name ASC";
+
+		return em.createQuery(jpql, Universe.class).getResultList();
+	}
+
+	public HashMap<Universe, List<FunkoPop>> findUniverseAndPops(String name) {
+		String jpql = "SELECT p FROM FunkoPop p JOIN FETCH p.universe WHERE p.universe.name LIKE :name";
+
+		List<FunkoPop> pops = em.createQuery(jpql, FunkoPop.class).setParameter("name", "%" + name + "%").getResultList();
+		System.out.println(pops);
+
+		HashMap<Universe, List<FunkoPop>> map = new HashMap<>();
+		for (FunkoPop pop : pops) {
+			List<FunkoPop> resultPops = map.get(pop.getUniverse());
+			if (resultPops == null) {
+				resultPops = new ArrayList<>();
+			}
+			resultPops.add(pop);
+			map.put(pop.getUniverse(), resultPops);
+		}
+
+		return map;
 	}
 }
