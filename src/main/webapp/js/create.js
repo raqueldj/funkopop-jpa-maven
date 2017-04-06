@@ -21,19 +21,22 @@ function create() {
     })
         .then(resp => resp.json())
         .then(json => {
-            $("ul.universe." + universeId).append('<li>'+data.name+'</li>')
+            $("ul.universe." + universeId).append($('<li>' + json.id + ' - ' + json.name + ' <button type="button" class="delete" id="' + json.id + '">Delete ' + json.name + '</button></li>'));
+            $('button.delete#' + json.id).on('click', remove);
         });
+
+        $('input[name=name]').val("");
 }
 
 $('button.delete').on('click', remove);
-function remove(){
-const id = this.id;
+function remove(event) {
+    const button = $(event.target);
+    const id = this.id;
 
-    fetch('../api/pops/'+ id, {
-        
+    fetch('../api/pops/' + id, {
         method: 'DELETE'
     })
-    .then(json => {
-            $("li.pop." + id).remove()
-    });
+        .then(json => {
+            button.closest("li").remove()
+        });
 }
